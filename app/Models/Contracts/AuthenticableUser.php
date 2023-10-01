@@ -12,7 +12,7 @@ interface AuthenticableUser extends MustVerifyEmail
 	 * @param void
 	 * @return void
 	 */
-	//public function sendEmailVerificationNotification(): void;
+	public function sendEmailVerificationNotification(): void;
 
 	/**
 	 * Send the email verification when updating email.
@@ -20,7 +20,7 @@ interface AuthenticableUser extends MustVerifyEmail
 	 * @param void
 	 * @return void
 	 */
-	//public function sendEmailUpdateVerificationNotification(): void;
+	public function sendEmailUpdateVerificationNotification(): void;
 
 	/**
 	 * Use new_pending_email if it is set, otherwise use email.
@@ -28,7 +28,7 @@ interface AuthenticableUser extends MustVerifyEmail
 	 * @param $notication
 	 * @return string
 	 */
-	//public function routeNotificationForMail($notification): string;
+	public function routeNotificationForMail($notification): string;
 
 	/**
 	 * Use new_pending_email if it is set, otherwise use email.
@@ -36,7 +36,7 @@ interface AuthenticableUser extends MustVerifyEmail
 	 * @param void
 	 * @return string
 	 */
-	//public function getEmailForVerification(): string;
+	public function getEmailForVerification(): string;
 
 	/**
 	 * Send a password reset notification.
@@ -44,5 +44,5 @@ interface AuthenticableUser extends MustVerifyEmail
 	 * @param string $token
 	 * @return void
 	 */
-	//public function sendPasswordResetNotification($token): void;
+	public function sendPasswordResetNotification($token): void;
 }
