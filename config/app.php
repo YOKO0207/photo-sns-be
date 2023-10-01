@@ -57,6 +57,8 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
+	'frontend_url' => env('FRONTEND_URL', 'http://localhost'),
+
     'asset_url' => env('ASSET_URL'),
 
     /*
@@ -70,7 +72,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => env('TIMEZONE', 'Asia/Tokyo'),
 
     /*
     |--------------------------------------------------------------------------
@@ -83,7 +85,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => env('LOCALE', 'en'),
 
     /*
     |--------------------------------------------------------------------------
@@ -168,6 +170,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+		App\Providers\ValidationServiceProvider::class,
     ])->toArray(),
 
     /*
