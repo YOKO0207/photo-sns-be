@@ -46,11 +46,12 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->reportable(function (Throwable $e) {
-            //
+			
         });
 
 		$this->renderable(function (Throwable $e, $request) {
 
+			// TODO some exception are not handled in specific instances
 			if ($e instanceof TokenMismatchException) {
 				$message = config('app.env') === 'local' ? $e->getMessage() : CommonResponseMessage::BAD_REQUEST;
 				return response()->json(['message' => $message], Response::HTTP_BAD_REQUEST); //400
@@ -110,11 +111,6 @@ class Handler extends ExceptionHandler
 				return response()->json(['message' => $message], Response::HTTP_INTERNAL_SERVER_ERROR); //500
 			}
 
-			if ($e instanceof HttpException) {
-				$message = config('app.env') === 'local' ? $e->getMessage() : CommonResponseMessage::BAD_REQUEST;
-				return response()->json(['message' => $message], $e->getStatusCode());
-			}
-
 			// Custom Exception
 			if ($e instanceof DeleteFailedException) {
 				$message = config('app.env') === 'local' ? $e->getMessage() : CommonResponseMessage::DELETE_FAILED;
@@ -147,6 +143,11 @@ class Handler extends ExceptionHandler
 			}
 
 			// This will handle all other exceptions which are not handled above
+			if ($e instanceof HttpException) {
+				$message = config('app.env') === 'local' ? $e->getMessage() : CommonResponseMessage::BAD_REQUEST;
+				return response()->json(['message' => "$message"], $e->getStatusCode());
+			}
+
 			$message = config('app.env') === 'local' ? $e->getMessage() : CommonResponseMessage::INTERNAL_SERVER_ERROR;
 			return response()->json(['message' => $message], 500);
 		});

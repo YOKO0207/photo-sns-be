@@ -73,13 +73,11 @@ Route::prefix('user')->as('user.')->group(function () {
 	});
 });
 Route::middleware('auth:user')->group(function () {
-	Route::resource('posts', PostController::class)
-	->names([
-		'store' => 'posts.store',
-		'update' => 'posts.update',
-		'destroy' => 'posts.destroy',
-	])
-	->only(['store', 'update', 'destroy']);
+	Route::post('posts', [PostController::class, 'store'])->name('posts.store');
+	Route::put('posts/{post}', [PostController::class, 'update'])->name('posts.update');
+	Route::delete('posts/{post}', [PostController::class, 'destroy'])
+	->name('posts.destroy')
+	->middleware('can:delete,post');
 });
 /*
 |------------------------------------------------------------------------------
@@ -89,9 +87,5 @@ Route::middleware('auth:user')->group(function () {
 | Here is where you can register guest routes for your application.
 |
 */
-Route::resource('posts', PostController::class)
-->names([
-	'index' => 'posts.index',
-	'show' => 'posts.show',
-])
-->only(['index', 'show']);
+Route::get('posts', [PostController::class, 'index'])->name('posts.index');
+Route::get('posts/{post}', [PostController::class, 'show'])->name('posts.show');
