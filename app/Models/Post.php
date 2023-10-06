@@ -17,16 +17,6 @@ class Post extends Model
 		return $this->belongsTo(User::class);
 	}
 
-	public function postText()
-	{
-		return $this->hasOne(PostText::class);
-	}
-
-	public function postImage()
-	{
-		return $this->hasOne(PostImage::class);
-	}
-
 	public function postThreads()
 	{
 		return $this->hasMany(PostThread::class);
@@ -39,5 +29,8 @@ class Post extends Model
 	 */
 	protected $fillable = [
 		'user_id',
+		'post_content',
+		'post_name',
+		'src',
 	];
 }

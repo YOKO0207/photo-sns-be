@@ -1,11 +1,14 @@
 <?php
 
-use App\Http\Controllers\UserAccountController;
-use App\Http\Controllers\UserAuthController;
-use App\Http\Controllers\UserEmailVerificationController;
-use App\Http\Controllers\UserPasswordResetController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\{
+	PostController,
+	UserAccountController,
+	UserAuthController,
+	UserEmailVerificationController,
+	UserPasswordResetController
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -69,3 +72,20 @@ Route::prefix('user')->as('user.')->group(function () {
 		});
 	});
 });
+Route::middleware('auth:user')->group(function () {
+	Route::post('posts', [PostController::class, 'store'])->name('posts.store');
+	Route::put('posts/{post}', [PostController::class, 'update'])->name('posts.update');
+	Route::delete('posts/{post}', [PostController::class, 'destroy'])
+	->name('posts.destroy')
+	->middleware('can:delete,post');
+});
+/*
+|------------------------------------------------------------------------------
+| Routes
+|------------------------------------------------------------------------------
+|
+| Here is where you can register guest routes for your application.
+|
+*/
+Route::get('posts', [PostController::class, 'index'])->name('posts.index');
+Route::get('posts/{post}', [PostController::class, 'show'])->name('posts.show');
