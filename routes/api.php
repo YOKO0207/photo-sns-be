@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
 	PostController,
+	PostThreadController,
 	UserAccountController,
 	UserAuthController,
 	UserEmailVerificationController,
@@ -73,19 +74,33 @@ Route::prefix('user')->as('user.')->group(function () {
 	});
 });
 Route::middleware('auth:user')->group(function () {
+	// posts
 	Route::post('posts', [PostController::class, 'store'])->name('posts.store');
 	Route::put('posts/{post}', [PostController::class, 'update'])->name('posts.update');
 	Route::delete('posts/{post}', [PostController::class, 'destroy'])
 	->name('posts.destroy')
 	->middleware('can:delete,post');
+
+	// post threads
+	Route::post('posts/{post}/post-threads', [PostThreadController::class, 'store'])->name('posts.post-threads.store');
+	Route::put('post-threads/{postThread}', [PostThreadController::class, 'update'])->name('post-threads.update')
+	->middleware('can:update,postThread');
+	Route::delete('post-threads/{postThread}', [PostThreadController::class, 'destroy'])
+	->name('post-threads.destroy')
+	->middleware('can:delete,postThread');
 });
 /*
 |------------------------------------------------------------------------------
-| Routes
+| Guest Routes
 |------------------------------------------------------------------------------
 |
 | Here is where you can register guest routes for your application.
 |
 */
+// posts
 Route::get('posts', [PostController::class, 'index'])->name('posts.index');
 Route::get('posts/{post}', [PostController::class, 'show'])->name('posts.show');
+
+// post threads
+Route::get('posts/{post}/post-threads', [PostThreadController::class, 'index'])->name('posts.post-threads.index');
+Route::get('post-threads/{postThread}', [PostThreadController::class, 'show'])->name('post-threads.show');
