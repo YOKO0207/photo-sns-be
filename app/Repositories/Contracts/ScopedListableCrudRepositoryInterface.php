@@ -12,18 +12,18 @@ interface ScopedListableCrudRepositoryInterface
 	 * Find all records searched and paginated.
 	 * 
 	 * @param int $pagination
-	 * @param string $id
+	 * @param string $parentId
 	 * @return LengthAwarePaginator
 	 */
-	public function findAllPaginated(int $pagination, string $id): LengthAwarePaginator;
+	public function findAllPaginated(int $pagination, string $parentId): LengthAwarePaginator;
 
 	/**
 	 * Find all records.
 	 * 
-	 * @param string $id
+	 * @param string $parentId
 	 * @return Collection|Model[]
 	 */
-	public function findAll(string $id): Collection;
+	public function findAll(string $parentId): Collection;
 	
 	/**
 	 * Create a record.
