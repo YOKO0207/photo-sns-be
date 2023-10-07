@@ -2,19 +2,20 @@
 
 namespace App\Providers;
 
+use App\Repositories\Eloquent\PostRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
     // query class bind
 	protected $queries = [
-		\App\Queries\Contracts\ListQueryInterface::class
-		=> \App\Queries\Eloquent\PostQuery::class,
 	];
+
 	// repository class bind
 	protected $repositories = [
 		
 	];
+
 	/**
      * Register any application services.
      */
@@ -36,9 +37,23 @@ class AppServiceProvider extends ServiceProvider
 		->needs(\App\Repositories\Contracts\AuthenticableUserRepositoryInterface::class)
 		->give(\App\Repositories\Eloquent\UserRepository::class);
 
+		// post bindings
 		$this->app->when(\App\Services\PostService::class)
 		->needs(\App\Repositories\Contracts\ListableCrudRepositoryInterface::class)
 		->give(\App\Repositories\Eloquent\PostRepository::class);
+
+		$this->app->when(\App\Repositories\Eloquent\PostRepository::class)
+		->needs(\App\Queries\Contracts\ListQueryInterface::class)
+		->give(\App\Queries\Eloquent\PostQuery::class);
+
+		// post thread bindings
+		$this->app->when(\App\Repositories\Eloquent\PostThreadRepository::class)
+		->needs(\App\Queries\Contracts\ScopedListQueryInterface::class)
+		->give(\App\Queries\Eloquent\PostThreadQuery::class);
+
+		$this->app->when(\App\Services\PostThreadService::class)
+		->needs(\App\Repositories\Contracts\ScopedListableCrudRepositoryInterface::class)
+		->give(\App\Repositories\Eloquent\PostThreadRepository::class);
     }
 
 	/**
