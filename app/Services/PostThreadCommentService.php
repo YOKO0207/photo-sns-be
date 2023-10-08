@@ -5,13 +5,13 @@ namespace App\Services;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Services\CommonService;
 use App\Http\Requests\{
-	PostThreadCreateRequest,
-	PostThreadUpdateRequest
+	PostThreadCommentCreateRequest,
+	PostThreadCommentUpdateRequest
 };
-use App\Models\{Post, PostThread};
+use App\Models\{PostThread, PostThreadComment};
 use App\Repositories\Contracts\ScopedListableCrudRepositoryInterface;
 
-class PostThreadService
+class PostThreadCommentService
 {
 	private CommonService $commonService;
 	private ScopedListableCrudRepositoryInterface $repository;
@@ -34,39 +34,39 @@ class PostThreadService
 	 * Handle a request to get a paginated list
 	 * 
 	 * @param int @pagination
-	 * @param Post $post
+	 * @param PostThread $postThread
 	 * @return LengthAwarePaginator
 	 */
-	public function getAllPaginated(int $pagination, Post $post): LengthAwarePaginator
+	public function getAllPaginated(int $pagination, PostThread $postThread): LengthAwarePaginator
 	{
-		return $this->repository->findAllPaginated($pagination, $post->id);
+		return $this->repository->findAllPaginated($pagination, $postThread->id);
 	}
 
 	/**
 	 * Handle a request to get a list
 	 * 
-	 * @param Post $post
+	 * @param PostThread $postThread
 	
 	 */
-	public function getAll(Post $post)
+	public function getAll(PostThread $postThread)
 	{
-		return $this->repository->findAll($post->id);
+		return $this->repository->findAll($postThread->id);
 	}
 
 	/**
 	 * Handle a request to create a record
 	 * 
-	 * @param PostThreadCreateRequest $request
-	 * @param Post $post
-	 * @return PostThread
+	 * @param PostThreadCommentCreateRequest $request
+	 * @param PostThread $postThread
+	 * @return PostThreadComment
 	 */
 	public function create(
-		PostThreadCreateRequest $request,
-		Post $post
-		): PostThread
+		PostThreadCommentCreateRequest $request,
+		PostThread $postThread
+		): PostThreadComment
 	{
 		$data = $request->validated();
-		$data['post_id'] = $post->id;
+		$data['post_thread_id'] = $postThread->id;
 		$user = $this->commonService->getAuthenticatedUser();
 		$data['user_id'] = $user->id;
 
@@ -76,42 +76,42 @@ class PostThreadService
 	/**
 	 * Handle a request to get a record
 	 * 
-	 * @param PostThread $postThread
-	 * @return PostThread
+	 * @param PostThreadComment $postThreadComment
+	 * @return PostThreadComment
 	 */
 	public function getDetail(
-		PostThread $postThread
-	): PostThread
+		PostThreadComment $postThreadComment
+	): PostThreadComment
 	{
-		return $postThread;
+		return $postThreadComment;
 	}
 
 	/**
 	 * Handle a request to update a record
 	 * 
-	 * @param PostThreadUpdateRequest $request
-	 * @param PostThread $postThread
-	 * @return PostThread
+	 * @param PostThreadCommentUpdateRequest $request
+	 * @param PostThreadComment $postThreadComment
+	 * @return PostThreadComment
 	 */
 	public function update(
-		PostThreadUpdateRequest $request,
-		PostThread $postThread
-		): PostThread
+		PostThreadCommentUpdateRequest $request,
+		PostThreadComment $postThreadComment
+		): PostThreadComment
 	{
 		$data = $request->validated();
-		return $this->repository->update($data, $postThread->id);
+		return $this->repository->update($data, $postThreadComment->id);
 	}
 
 	/**
 	 * Handle a request to delete a record
 	 * 
-	 * @param PostThread $postThread
+	 * @param PostThreadComment $postThreadComment
 	 * @return void
 	 */
 	public function delete(
-		PostThread $postThread
+		PostThreadComment $postThreadComment
 	): void
 	{
-		$this->repository->delete($postThread->id);
+		$this->repository->delete($postThreadComment->id);
 	}
 }

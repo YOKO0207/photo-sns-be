@@ -54,6 +54,15 @@ class AppServiceProvider extends ServiceProvider
 		$this->app->when(\App\Services\PostThreadService::class)
 		->needs(\App\Repositories\Contracts\ScopedListableCrudRepositoryInterface::class)
 		->give(\App\Repositories\Eloquent\PostThreadRepository::class);
+
+		// post thread comment bindings
+		$this->app->when(\App\Repositories\Eloquent\PostThreadCommentRepository::class)
+		->needs(\App\Queries\Contracts\ScopedListQueryInterface::class)
+		->give(\App\Queries\Eloquent\PostThreadCommentQuery::class);
+
+		$this->app->when(\App\Services\PostThreadCommentService::class)
+		->needs(\App\Repositories\Contracts\ScopedListableCrudRepositoryInterface::class)
+		->give(\App\Repositories\Eloquent\PostThreadCommentRepository::class);
     }
 
 	/**

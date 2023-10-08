@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
 	PostController,
 	PostThreadController,
+	PostThreadCommentController,
 	UserAccountController,
 	UserAuthController,
 	UserEmailVerificationController,
@@ -86,8 +87,15 @@ Route::middleware('auth:user')->group(function () {
 	Route::put('post-threads/{postThread}', [PostThreadController::class, 'update'])->name('post-threads.update')
 	->middleware('can:update,postThread');
 	Route::delete('post-threads/{postThread}', [PostThreadController::class, 'destroy'])
-	->name('post-threads.destroy')
-	->middleware('can:delete,postThread');
+	->name('post-threads.destroy')->middleware('can:delete,postThread');
+
+	// post thread comments
+	Route::post('post-threads/{postThread}/post-thread-comments', [PostThreadCommentController::class, 'store'])->name('post-threads.post-thread-comments.store');
+	Route::put('post-thread-comments/{postThreadComment}', [PostThreadCommentController::class, 'update'])->name('post-thread-comments.update')
+	->middleware('can:update,postThreadComment');
+	Route::delete('post-thread-comments/{postThreadComment}', [PostThreadCommentController::class, 'destroy'])
+	->name('post-thread-comments.destroy')
+	->middleware('can:delete,postThreadComment');
 });
 /*
 |------------------------------------------------------------------------------
@@ -104,3 +112,7 @@ Route::get('posts/{post}', [PostController::class, 'show'])->name('posts.show');
 // post threads
 Route::get('posts/{post}/post-threads', [PostThreadController::class, 'index'])->name('posts.post-threads.index');
 Route::get('post-threads/{postThread}', [PostThreadController::class, 'show'])->name('post-threads.show');
+
+// post thread comments
+Route::get('post-threads/{postThread}/post-thread-comments', [PostThreadCommentController::class, 'index'])->name('post-threads.post-thread-comments.index');
+Route::get('post-thread-comments/{postThreadComment}', [PostThreadCommentController::class, 'show'])->name('post-thread-comments.show');
