@@ -28,7 +28,8 @@ class PostThreadComment extends Model
 	 * @var array<int, string>
 	 */
 	protected $fillable = [
-		'post_id',
+		'post_thread_id',
+		'user_id',
 		'content',
 	];
 }
