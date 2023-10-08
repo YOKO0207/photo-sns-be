@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Pagination\LengthAwarePaginator;
-use App\Services\{CommonResponseService, CommonService};
+use App\Services\CommonService;
 use App\Http\Requests\{
 	PostThreadCreateRequest,
 	PostThreadUpdateRequest
@@ -56,7 +56,7 @@ class PostThreadService
 	/**
 	 * Handle a request to create a record
 	 * 
-	 * @param PhotoThreadCreateRequest $request
+	 * @param PostThreadCreateRequest $request
 	 * @param Post $post
 	 * @return PostThread
 	 */
