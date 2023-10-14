@@ -8,7 +8,8 @@ use App\Http\Controllers\{
 	UserAccountController,
 	UserAuthController,
 	UserEmailVerificationController,
-	UserPasswordResetController
+	UserPasswordResetController,
+	MultiAuthController
 };
 
 /*
@@ -97,6 +98,9 @@ Route::middleware('auth:user')->group(function () {
 | Here is where you can register guest routes for your application.
 |
 */
+// check authentication
+Route::get('/me', [MultiAuthController::class, 'me']);
+
 // posts
 Route::get('posts', [PostController::class, 'index'])->name('posts.index');
 Route::get('posts/{post}', [PostController::class, 'show'])->name('posts.show');
