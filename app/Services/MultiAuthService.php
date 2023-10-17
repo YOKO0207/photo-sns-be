@@ -5,6 +5,7 @@ namespace App\Services;
 use Illuminate\Http\JsonResponse;
 use App\Services\{CommonService};
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class MultiAuthService
 {
@@ -26,8 +27,12 @@ class MultiAuthService
 	 * 
 	 * @return JsonResponse
 	 */
-	public function me(): User
+	public function me(): User | null
 	{
-		return $this->commonService->getAuthenticatedUser();
+		$data = null;
+		if (auth()->guard('user')->check()) {
+			$data = Auth::guard('user')->user();
+		}
+		return $data;
 	}
 }

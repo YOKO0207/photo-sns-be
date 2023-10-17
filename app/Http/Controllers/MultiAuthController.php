@@ -26,10 +26,17 @@ class MultiAuthController extends Controller
 	public function me(): JsonResponse
 	{
 		$data = $this->service->me();
-		$viewModel = new AuthenticableUserDetailViewModel($data);
-		return $this->successResponse(
-			message: CommonResponseMessage::DETAIL_SUCCESS,
-			data: $viewModel->data
-		);
+		if ($data) {
+			$viewModel = new AuthenticableUserDetailViewModel($data);
+			return $this->successResponse(
+				message: CommonResponseMessage::DETAIL_SUCCESS,
+				data: $viewModel->data
+			);
+		} else {
+			return $this->successResponse(
+				message: CommonResponseMessage::NOT_EXIST_AUTHENTICATED_USER,
+				data: []
+			);
+		}
 	}
 }
