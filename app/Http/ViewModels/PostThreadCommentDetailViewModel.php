@@ -17,6 +17,7 @@ class PostThreadCommentDetailViewModel extends BaseViewModel {
 				'content' => $model->content,
 				'user' => [
 					'name' => $model->user ? $model->user->name : __('deleted user'),
+					'id' => $model->user ? $model->user->id : 0,
 				]
 			]
 		];
