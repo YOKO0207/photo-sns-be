@@ -42,8 +42,7 @@ class EmailVerificationNotification extends VerifyEmail
 			[
 				'id' => $notifiable->getKey(),
 				'hash' => sha1($notifiable->getEmailForVerification()),
-			],
-			false
+			]
 		);
 	}
 
@@ -62,7 +61,7 @@ class EmailVerificationNotification extends VerifyEmail
 			->subject(__('email-verification-subject'))
 			->greeting(__('email-greeting', ['name' => $notifiable->name, "app_name" => config('app.name')]))
 			->line(__('email-verification-click-link'))
-			->action(__('email-verification-verify-email'), $prefix . urlencode(config('app.url') . $verificationUrl))
+			->action(__('email-verification-verify-email'), $prefix . urlencode($verificationUrl))
 			->line(__('email-verification-ignore-email'))
 			->line(__('email-verification-expire-note', ['count' => config('auth.email_verification_expire', 60) / (60 * 24)]))
 			->line(__('email-no-reply'));
