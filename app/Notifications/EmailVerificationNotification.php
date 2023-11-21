@@ -54,13 +54,13 @@ class EmailVerificationNotification extends VerifyEmail
 	public function toMail($notifiable)
 	{
 		$prefix = config('app.frontend_url') . '/' . $this->routeName . '/email-verification?url=';
-		$verificationUrl = $this->verificationUrl($notifiable);
+		//$verificationUrl = $this->verificationUrl($notifiable);
 
 		return (new MailMessage)
 			->subject(__('email-verification-subject'))
 			->greeting(__('email-greeting', ['name' => $notifiable->name, "app_name" => config('app.name')]))
 			->line(__('email-verification-click-link'))
-			->action(__('email-verification-verify-email'), $prefix . urlencode($verificationUrl))
+			//->action(__('email-verification-verify-email'), $prefix . urlencode($verificationUrl))
 			->line(__('email-verification-ignore-email'))
 			->line(__('email-verification-expire-note', ['count' => config('auth.email_verification_expire', 60) / (60 * 24)]))
 			->line(__('email-no-reply'));
