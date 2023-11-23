@@ -7,10 +7,9 @@ use App\Exceptions\{
 	DeleteFailedException,
 };
 use App\Models\User;
-use App\Repositories\Contracts\AuthenticableUserRepositoryInterface;
-use App\Constants\CommonResponseMessage;
+use App\Repositories\Contracts\UserRepositoryInterface;
 
-class UserRepository implements AuthenticableUserRepositoryInterface
+class UserRepository implements UserRepositoryInterface
 {
 
 	protected $model;

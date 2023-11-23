@@ -2,51 +2,51 @@
 
 namespace App\Repositories\Contracts;
 
-use App\Models\Contracts\AuthenticableUser;
+use App\Models\User;
 
-interface AuthenticableUserRepositoryInterface
+interface UserRepositoryInterface
 {
 	/**
 	 * Create a record.
 	 * 
 	 * @param array $data
-	 * @return AuthenticableUser
+	 * @return User
 	 */
-	public function create(array $data): AuthenticableUser;
+	public function create(array $data): User;
 
 	/**
 	 * Find a record.
 	 * 
 	 * @param string $id
-	 * @return AuthenticableUser
+	 * @return User
 	 */
-	public function findById(string $id): AuthenticableUser;
+	public function findById(string $id): User;
 
 	/**
 	 * Find a record by email.
 	 * 
 	 * @param string $email
-	 * @return AuthenticableUser
+	 * @return User
 	 */
-	public function findByEmail(string $email): AuthenticableUser;
+	public function findByEmail(string $email): User;
 
 	/**
 	 * Update a record.
 	 * 
 	 * @param array $data
 	 * @param string $id
-	 * @return AuthenticableUser
+	 * @return User
 	 */
-	public function update(array $data, string $id): AuthenticableUser;
+	public function update(array $data, string $id): User;
 
 	/**
 	 * Update a record.
 	 * 
 	 * @param array $data
 	 * @param string $id
-	 * @return AuthenticableUser
+	 * @return User
 	 */
-	public function updatePassword(array $data, string $id): AuthenticableUser;
+	public function updatePassword(array $data, string $id): User;
 
 	/**
 	 * Delete a record.

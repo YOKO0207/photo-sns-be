@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\Rule;
 
-class AuthenticableUserNameUpdateRequest extends FormRequest
+class UserEmailVerificationResendRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class AuthenticableUserNameUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-			'name' => ['required', 'string', 'max:255'],
+			'email' => ['required', 'email', 'max:255', 'exists:users,email'],
         ];
     }
 

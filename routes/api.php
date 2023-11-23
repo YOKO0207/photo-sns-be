@@ -63,7 +63,7 @@ Route::prefix('user')->as('user.')->group(function () {
 */
 // authenticated routes
 Route::prefix('user')->as('user.')->group(function () {
-	Route::middleware('auth:user')->group(function () {
+	Route::middleware('auth:sanctum')->group(function () {
 		// auth
 		Route::post('/logout', [UserAuthController::class, 'logout']);
 
@@ -107,7 +107,7 @@ Route::middleware('auth:user')->group(function () {
 |
 */
 // check authentication
-Route::get('/me', [MultiAuthController::class, 'me']);
+Route::middleware('auth:sanctum')->get('/me', [MultiAuthController::class, 'me']);
 
 // posts
 Route::get('posts', [PostController::class, 'index'])->name('posts.index');

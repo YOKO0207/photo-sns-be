@@ -2,7 +2,7 @@
 
 namespace App\Http\ViewModels;
 
-class AuthenticableUserEmailUpdateDetailViewModel extends BaseViewModel {
+class UserDetailViewModel extends BaseViewModel {
 
 	public $data;
 
@@ -12,7 +12,9 @@ class AuthenticableUserEmailUpdateDetailViewModel extends BaseViewModel {
 			'data' => 
 			[
 				'id' => $model->id,
-				'new_pending_email' => $model->new_pending_email,
+				'name' => $model->name,
+				'email' => $model->email,
+				'access_token' => $model->accessToken,
 			]
 		];
 	}

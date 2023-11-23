@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Contracts\AuthenticableUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -11,8 +10,9 @@ use App\Notifications\{
 	EmailVerificationNotification, 
 	EmailUpdateVerificationNotification, 
 	PasswordResetNotification};
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-class User extends Authenticatable implements AuthenticableUser
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 

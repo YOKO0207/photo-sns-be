@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AuthenticableUserPasswordResetRequest extends FormRequest
+class UserEmailUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,8 @@ class AuthenticableUserPasswordResetRequest extends FormRequest
     public function rules()
     {
         return [
-			'token' => ['required'],
-			'password' => ['required', 'string', 'confirmed', 'max:255'],
-			'email' => ['required', 'email', 'max:255']
+			'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+			'password' => ['required', 'string', 'max:255', 'current_password'],
         ];
     }
 
@@ -38,7 +37,7 @@ class AuthenticableUserPasswordResetRequest extends FormRequest
     public function messages()
     {
         return [
-            // messages will be translated in lang/ja/validation.php
+			// messages will be translated in lang/ja/validation.php
         ];
     }
 }

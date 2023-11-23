@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class AuthenticableUserEmailVerificationResendRequest extends FormRequest
+class UserAuthRegisterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +24,9 @@ class AuthenticableUserEmailVerificationResendRequest extends FormRequest
     public function rules()
     {
         return [
-			'email' => ['required', 'email', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
+			'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+			'password' => ['required', 'string', 'confirmed', 'max:255'],
         ];
     }
 
@@ -37,7 +38,7 @@ class AuthenticableUserEmailVerificationResendRequest extends FormRequest
     public function messages()
     {
         return [
-			// messages will be translated in lang/ja/validation.php
+            // messages will be translated in lang/ja/validation.php
         ];
     }
 }

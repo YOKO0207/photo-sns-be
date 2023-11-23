@@ -2,33 +2,88 @@
 
 namespace App\Services;
 
-use App\Repositories\Contracts\AuthenticableUserRepositoryInterface;
 use App\Services\CommonResponseService;
-use App\Services\AuthenticableUserPasswordResetService;
+use Illuminate\Http\JsonResponse;
+use App\Http\Requests\{
+	UserPasswordResetLinkSendRequest,
+	UserPasswordResetRequest
+};
+use App\Constants\CommonResponseMessage;
+use Illuminate\Support\Facades\Password;
+use App\Exceptions\{UserNotExistException, TokenInvalidException};
+use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
+use Illuminate\Support\Facades\Hash;
 
-class UserPasswordResetService extends AuthenticableUserPasswordResetService
+class UserPasswordResetService
 {
-	private AuthenticableUserRepositoryInterface $repository;
+	private CommonResponseService $response;
 
 	/**
 	 * @param CommonResponseService $response
-	 * @param AuthenticableUserRepositoryInterface $repository
 	 */
 	public function __construct(
-		CommonResponseService $response,
-		AuthenticableUserRepositoryInterface $repository
+		CommonResponseService $response
 	) {
-		parent::__construct($response);
-		$this->repository = $repository;
+		$this->response = $response;
 	}
 
-	protected function setRepository(): AuthenticableUserRepositoryInterface
+	/**
+	 * Handle a request to create a record
+	 * 
+	 * @param UserPasswordResetLinkSendRequest $request
+	 * @return JsonResponse
+	 */
+	public function sendPasswordResetLink(UserPasswordResetLinkSendRequest $request): JsonResponse
 	{
-		return $this->repository;
+		// validate
+		$request->validated();
+
+		// send password reset link
+		$status = Password::broker('users')->sendResetLink($request->only('email'));
+
+		if ($status === Password::RESET_LINK_SENT) {
+			return $this->response->successResponse(
+				message: CommonResponseMessage::PASSWORD_RESET_SEND
+			);
+		} else if ($status == Password::RESET_THROTTLED) {
+			throw new TooManyRequestsHttpException("TooManyRequestsHttpException in UserPasswordResetService@sendPasswordResetLink");
+		} else {
+			throw new \Exception("Exception in UserPasswordResetService@sendPasswordResetLink");
+		}
 	}
 
-	protected function getProvider(): string
+	/**
+	 * Handle a request to login to an account
+	 * 
+	 * @param UserPasswordResetRequest $request
+	 * @return JsonResponse
+	 */
+	public function resetPassword(UserPasswordResetRequest $request): JsonResponse
 	{
-		return 'users';
+		// validate
+		$request->validated();
+
+		// reset password
+		$status = Password::broker('users')->reset(
+			$request->only('password', 'password_confirmation', 'token', 'email'),
+			function ($user, $password) {
+				$user->forceFill(['password' => Hash::make($password)])->save();
+			}
+		);
+
+
+		if ($status === Password::PASSWORD_RESET) {
+			return $this->response->successResponse(
+				message: CommonResponseMessage::PASSWORD_RESET_SUCCESS
+			);
+		} else if ($status == Password::INVALID_USER) {
+			throw new UserNotExistException("UserNotExistException in UserPasswordResetService@resetPassword");
+		} else if ($status == Password::INVALID_TOKEN) {
+			throw new TokenInvalidException("TokenInvalidException in UserPasswordResetService@resetPassword");
+		} else if ($status == Password::RESET_THROTTLED) {
+			throw new TooManyRequestsHttpException("TooManyRequestsHttpException in UserPasswordResetService@resetPassword");
+		} else {
+			throw new \Exception("Exception in UserPasswordResetService@resetPassword");
+		}
 	}
 }

@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Repositories\Eloquent\PostRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,19 +21,19 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
 		$this->app->when(\App\Services\UserAuthService::class)
-		->needs(\App\Repositories\Contracts\AuthenticableUserRepositoryInterface::class)
+		->needs(\App\Repositories\Contracts\UserRepositoryInterface::class)
 		->give(\App\Repositories\Eloquent\UserRepository::class);
 
 		$this->app->when(\App\Services\UserPasswordResetService::class)
-		->needs(\App\Repositories\Contracts\AuthenticableUserRepositoryInterface::class)
+		->needs(\App\Repositories\Contracts\UserRepositoryInterface::class)
 		->give(\App\Repositories\Eloquent\UserRepository::class);
 
 		$this->app->when(\App\Services\UserAccountService::class)
-		->needs(\App\Repositories\Contracts\AuthenticableUserRepositoryInterface::class)
+		->needs(\App\Repositories\Contracts\UserRepositoryInterface::class)
 		->give(\App\Repositories\Eloquent\UserRepository::class);
 
 		$this->app->when(\App\Services\UserEmailVerificationService::class)
-		->needs(\App\Repositories\Contracts\AuthenticableUserRepositoryInterface::class)
+		->needs(\App\Repositories\Contracts\UserRepositoryInterface::class)
 		->give(\App\Repositories\Eloquent\UserRepository::class);
 
 		// post bindings

@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
 
-class AuthenticableUserPasswordResetLinkSendRequest extends FormRequest
+class UserPasswordUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +25,8 @@ class AuthenticableUserPasswordResetLinkSendRequest extends FormRequest
     public function rules()
     {
         return [
-			'email' => ['required', 'email', 'max:255'],
+			'current_password' => ['required', 'string', 'max:255', 'current_password'],
+			'password' => ['required', 'string', 'confirmed', 'max:255', Password::defaults()],
         ];
     }
 
@@ -36,7 +38,7 @@ class AuthenticableUserPasswordResetLinkSendRequest extends FormRequest
     public function messages()
     {
         return [
-            // messages will be translated in lang/ja/validation.php
+			// messages will be translated in lang/ja/validation.php
         ];
     }
 }

@@ -6,8 +6,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Services\UserAuthService;
 use App\Http\Requests\{
-	AuthenticableUserAuthLoginRequest,
-	AuthenticableUserAuthRegisterRequest
+	UserAuthLoginRequest,
+	UserAuthRegisterRequest
 };
 
 class UserAuthController extends Controller
@@ -22,10 +22,10 @@ class UserAuthController extends Controller
 	/**
 	 * Register an account.
 	 * 
-	 * @param AuthenticableUserAuthRegisterRequest $request
+	 * @param UserAuthRegisterRequest $request
 	 * @return JsonResponse
 	 */
-	public function register(AuthenticableUserAuthRegisterRequest $request): JsonResponse
+	public function register(UserAuthRegisterRequest $request): JsonResponse
 	{
 		return $this->service->register($request);
 	}
@@ -33,10 +33,10 @@ class UserAuthController extends Controller
 	/**
 	 * Login to an account.
 	 * 
-	 * @param AuthenticableUserAuthLoginRequest $request
+	 * @param UserAuthLoginRequest $request
 	 * @return JsonResponse
 	 */
-	public function login(AuthenticableUserAuthLoginRequest $request): JsonResponse
+	public function login(UserAuthLoginRequest $request): JsonResponse
 	{
 		return $this->service->login($request);
 	}

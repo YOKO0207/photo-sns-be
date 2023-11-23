@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
-use App\Http\Requests\AuthenticableUserEmailVerificationResendRequest;
+use App\Http\Requests\UserEmailVerificationResendRequest;
 use App\Services\UserEmailVerificationService;
 
 use Illuminate\Http\Request;
@@ -42,10 +42,10 @@ class UserEmailVerificationController extends Controller
 	/**
 	 * Resend a verification email to the user.
 	 * 
-	 * @param AuthenticableUserEmailVerificationResendRequest $request
+	 * @param UserEmailVerificationResendRequest $request
 	 * @return JsonResponse
 	 */
-	public function resend(AuthenticableUserEmailVerificationResendRequest $request): JsonResponse
+	public function resend(UserEmailVerificationResendRequest $request): JsonResponse
 	{
 		return $this->service->resend($request);
 	}
