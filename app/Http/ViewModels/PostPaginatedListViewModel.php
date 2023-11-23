@@ -13,7 +13,7 @@ class PostPaginatedListViewModel extends BaseViewModel
 				return [
 					'id' => $model->id,
 					'created_at' => $this->formatDate($model->created_at),
-					'src' => asset(str_replace('public/', 'storage/', $model->src)),
+					'src' => $model->src,
 					'post_name' => $model->post_name,
 					'post_content' => $model->post_content,
 					'user' => [

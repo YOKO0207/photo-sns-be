@@ -67,8 +67,8 @@ class PostService
 			$data = $request->validated();
 
 			if ($request->file('src')->isValid()) {
-				$path = $request->file('src')->store('public');
-				$data['src'] = $path;
+				$path = Storage::disk('s3')->putFile('images', $request->file('src'), 'public-read');
+				$data['src'] = Storage::disk('s3')->url($path);
 			} else {
 				throw new FileUploadFailedException("FileUploadFailedException in PostService@create");
 			}
@@ -114,8 +114,10 @@ class PostService
 
 		try {
 			$this->repository->delete($post->id);
-			if (!Storage::delete($post->src)) {
-				throw new FileDeleteFailedException("FileDeleteFailedException in PostService@delete");
+			$isDeleted = Storage::disk('s3')->delete($post->src);
+
+			if (!$isDeleted) {
+				throw new \RuntimeException("File deletion failed.");
 			}
 			DB::commit();
 		} catch (Exception $e) {

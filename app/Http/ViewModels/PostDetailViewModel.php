@@ -15,7 +15,7 @@ class PostDetailViewModel extends BaseViewModel {
 				'created_at' => $this->formatDate($model->created_at),
 				'post_name' => $model->post_name,
 				'post_content' => $model->post_content,
-				'src' => asset(str_replace('public/', 'storage/', $model->src)),
+				'src' => $model->src,
 				'user' => [
 					'name' => $model->user->name,
 				],
