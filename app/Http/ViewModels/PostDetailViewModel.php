@@ -18,6 +18,7 @@ class PostDetailViewModel extends BaseViewModel {
 				'src' => $model->src,
 				'user' => [
 					'name' => $model->user->name,
+					'id' => $model->user->id,
 				],
 
 			]

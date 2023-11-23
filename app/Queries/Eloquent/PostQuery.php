@@ -16,7 +16,7 @@ class PostQuery implements ListQueryInterface
 	 */
 	public function searchAll(): Builder
 	{
-		$query = Post::query()->orderBy('id', 'asc');
+		$query = Post::query()->orderBy('id', 'desc');
 
 		return $query;
 	}

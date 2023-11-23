@@ -18,6 +18,7 @@ class PostListViewModel extends BaseViewModel
 					'post_content' => $model->post_content,
 					'user' => [
 						'name' => $model->user->name,
+						'id' => $model->user->id,
 					],
 				];
 			})->all()
