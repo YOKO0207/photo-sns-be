@@ -7,7 +7,6 @@ use App\Services\MultiAuthService;
 use App\Traits\CommonResponseTrait;
 use App\Http\ViewModels\UserDetailViewModel;
 use App\Constants\CommonResponseMessage;
-use Illuminate\Http\Request;
 
 class MultiAuthController extends Controller
 {
@@ -24,9 +23,9 @@ class MultiAuthController extends Controller
 	 * 
 	 * @return JsonResponse
 	 */
-	public function me(Request $request): JsonResponse
+	public function me(): JsonResponse
 	{
-		$data = $this->service->me($request);
+		$data = $this->service->me();
 		if ($data) {
 			$viewModel = new UserDetailViewModel($data);
 			return $this->successResponse(

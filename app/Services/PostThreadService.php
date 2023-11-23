@@ -67,7 +67,7 @@ class PostThreadService
 	{
 		$data = $request->validated();
 		$data['post_id'] = $post->id;
-		$user = $this->commonService->getAuthenticatedUser();
+		$user = $request->user();
 		$data['user_id'] = $user->id;
 
 		return $this->repository->create($data);

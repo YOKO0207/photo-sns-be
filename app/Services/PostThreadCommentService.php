@@ -67,7 +67,7 @@ class PostThreadCommentService
 	{
 		$data = $request->validated();
 		$data['post_thread_id'] = $postThread->id;
-		$user = $this->commonService->getAuthenticatedUser();
+		$user = $request->user();
 		$data['user_id'] = $user->id;
 
 		return $this->repository->create($data);

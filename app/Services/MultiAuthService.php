@@ -4,7 +4,7 @@ namespace App\Services;
 
 use Illuminate\Http\JsonResponse;
 use App\Models\User;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MultiAuthService
 {
@@ -13,8 +13,13 @@ class MultiAuthService
 	 * 
 	 * @return JsonResponse
 	 */
-	public function me(Request $request): User | null
+	public function me(): User | null
 	{
-		return $request->user();
+		$user = Auth::guard('api')->user();
+		if ($user) {
+			return $user;
+		} else {
+			return null;
+		}
 	}
 }

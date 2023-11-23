@@ -73,7 +73,7 @@ class PostService
 				throw new FileUploadFailedException("FileUploadFailedException in PostService@create");
 			}
 
-			$data['user_id'] = $this->commonService->getAuthenticatedUser()->id;
+			$data['user_id'] = $request->user()->id;
 			$data = $this->repository->create($data);
 
 			DB::commit(); // Commit the transaction if everything went well

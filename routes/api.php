@@ -28,6 +28,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// check authentication
+Route::get('/me', [MultiAuthController::class, 'me']);
+
 /*
 |------------------------------------------------------------------------------
 | User unauthenticated Routes
@@ -53,6 +56,7 @@ Route::prefix('user')->as('user.')->group(function () {
 	Route::post('password-forget', [UserPasswordResetController::class, 'sendPasswordResetLink'])->name('password.forget');
 	Route::post('password-reset', [UserPasswordResetController::class, 'resetPassword'])->name('password.reset');
 });
+
 /*
 |------------------------------------------------------------------------------
 | User authenticated Routes
@@ -74,8 +78,11 @@ Route::prefix('user')->as('user.')->group(function () {
 			Route::delete('/user', [UserAccountController::class, 'destroy'])->name('destroy');
 		});
 	});
+
+	
 });
-Route::middleware('auth:user')->group(function () {
+
+Route::middleware('auth:sanctum')->group(function () {
 	// posts
 	Route::post('posts', [PostController::class, 'store'])->name('posts.store');
 	Route::put('posts/{post}', [PostController::class, 'update'])->name('posts.update');
@@ -106,9 +113,6 @@ Route::middleware('auth:user')->group(function () {
 | Here is where you can register guest routes for your application.
 |
 */
-// check authentication
-Route::middleware('auth:sanctum')->get('/me', [MultiAuthController::class, 'me']);
-
 // posts
 Route::get('posts', [PostController::class, 'index'])->name('posts.index');
 Route::get('posts/{post}', [PostController::class, 'show'])->name('posts.show');
