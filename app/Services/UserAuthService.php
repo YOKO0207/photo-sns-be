@@ -13,7 +13,8 @@ use App\Http\Requests\{
 };
 use App\Constants\CommonResponseMessage;
 use App\Http\ViewModels\{
-	UserDetailViewModel
+	UserDetailViewModel,
+	UserAuthenticatedDetailViewModel
 };
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -53,10 +54,8 @@ class UserAuthService
 		event(new Registered($data));
 
 		// return Json response
-		$viewModel = new UserDetailViewModel($data);
 		return $this->response->successResponse(
-			message: CommonResponseMessage::REGISTER_VERIFICATION_SUCCESS,
-			data: $viewModel->data
+			message: CommonResponseMessage::REGISTER_VERIFICATION_SUCCESS
 		);
 	}
 
@@ -78,7 +77,7 @@ class UserAuthService
 
 		// return Json response
 		$user['accessToken'] = $token;
-		$viewModel = new UserDetailViewModel($user);
+		$viewModel = new UserAuthenticatedDetailViewModel($user);
 		return $this->response->successResponse(
 			message: CommonResponseMessage::LOGIN_SUCCESS,
 			data: $viewModel->data

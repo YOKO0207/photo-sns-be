@@ -52,6 +52,8 @@ class UserEmailVerificationService
 		$user->markEmailAsVerified();
 		event(new Verified($user));
 
+		
+
 		// return Json response
 		return $this->response->successResponse(
 			message: CommonResponseMessage::VERIFIED_SUCCESS,

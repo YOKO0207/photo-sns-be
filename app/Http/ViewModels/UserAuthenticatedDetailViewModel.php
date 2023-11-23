@@ -2,7 +2,7 @@
 
 namespace App\Http\ViewModels;
 
-class UserDetailViewModel extends BaseViewModel {
+class UserAuthenticatedDetailViewModel extends BaseViewModel {
 
 	public $data;
 
@@ -14,6 +14,7 @@ class UserDetailViewModel extends BaseViewModel {
 				'id' => $model->id,
 				'name' => $model->name,
 				'email' => $model->email,
+				'access_token' => $model->accessToken,
 			]
 		];
 	}
